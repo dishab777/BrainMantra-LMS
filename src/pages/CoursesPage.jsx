@@ -315,7 +315,6 @@ export default function CoursesPage() {
             const now = new Date().getTime();
             const resetDays = res.data.days.filter(d => {
               if (d.completed) return false;
-              if (d.day_number === 47) return true;
               if (d.day_number >= res.data.currentDay && d.day_number !== 48) return false;
               if (d.reset_at) {
                 const resetTime = new Date(d.reset_at).getTime();
@@ -324,7 +323,7 @@ export default function CoursesPage() {
               return false;
             }).map(d => d.day_number);
             
-            if (resetDays.length > 0 && !sessionStorage.getItem('day47_courses_dismissed')) {
+            if (resetDays.length > 0 && !sessionStorage.getItem('courses_reset_dismissed')) {
               setResetDaysList(resetDays);
               setShowResetModal(true);
             }
@@ -370,47 +369,36 @@ export default function CoursesPage() {
                   ⚠️
                 </div>
                 <h2 className="day-modal-title">
-                  {resetDaysList.includes(47) ? 'Day 47 Must Be Attempted Again' : 'Action Required!'}
+                  Action Required!
                 </h2>
                 <p className="day-modal-text" style={{ fontSize: '0.9rem', marginBottom: '1rem', lineHeight: 1.5 }}>
-                  {resetDaysList.includes(47) ? (
-                    <>
-                      Day 47 has been reset for all students. 
-                      You must <strong>attempt Day 47 again</strong> to claim your XP points and keep your streak!
-                    </>
-                  ) : (
-                    <>
-                      Some of your past days had unattempted sections and have been reset for <strong>24 hours</strong>. 
-                      Please complete them now to restore your streak!
-                    </>
-                  )}
+                  Some of your past days had unattempted sections and have been reset for <strong>24 hours</strong>. 
+                  Please complete them now to restore your streak!
                 </p>
                 <div style={{ background: 'var(--bg-elevated)', padding: '0.75rem', borderRadius: 'var(--radius-sm)', marginBottom: '1.5rem', border: '1px solid var(--border)', textAlign: 'center' }}>
                   <strong>Reset Days:</strong> {resetDaysList.join(', ')}
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', width: '100%' }}>
-                  {resetDaysList.includes(47) && (
-                    <button 
-                      className="btn btn-primary" 
-                      onClick={() => {
-                        setShowResetModal(false)
-                        sessionStorage.setItem('day47_courses_dismissed', 'true')
-                        navigate('/challenge/day/47/sections')
-                      }} 
-                      style={{ width: '100%', justifyContent: 'center' }}
-                    >
-                      Attempt Day 47 Now 🚀
-                    </button>
-                  )}
+                  <button 
+                    className="btn btn-primary" 
+                    onClick={() => {
+                      setShowResetModal(false)
+                      sessionStorage.setItem('courses_reset_dismissed', 'true')
+                      if (resetDaysList[0]) navigate(`/challenge/day/${resetDaysList[0]}/sections`)
+                    }} 
+                    style={{ width: '100%', justifyContent: 'center' }}
+                  >
+                    Attempt Reset Day 🚀
+                  </button>
                   <button 
                     className="btn btn-secondary" 
                     onClick={() => {
                       setShowResetModal(false)
-                      sessionStorage.setItem('day47_courses_dismissed', 'true')
+                      sessionStorage.setItem('courses_reset_dismissed', 'true')
                     }} 
                     style={{ width: '100%', justifyContent: 'center' }}
                   >
-                    {resetDaysList.includes(47) ? "I'll do it later" : "Got it, I'll complete them!"}
+                    Got it, I'll complete them!
                   </button>
                 </div>
               </div>
@@ -549,47 +537,36 @@ export default function CoursesPage() {
               ⚠️
             </div>
             <h2 className="day-modal-title">
-              {resetDaysList.includes(47) ? 'Day 47 Must Be Attempted Again' : 'Action Required!'}
+              Action Required!
             </h2>
             <p className="day-modal-text" style={{ fontSize: '0.9rem', marginBottom: '1rem', lineHeight: 1.5 }}>
-              {resetDaysList.includes(47) ? (
-                <>
-                  Day 47 has been reset for all students. 
-                  You must <strong>attempt Day 47 again</strong> to claim your XP points and keep your streak!
-                </>
-              ) : (
-                <>
-                  Some of your past days had unattempted sections and have been reset for <strong>24 hours</strong>. 
-                  Please complete them now to restore your streak!
-                </>
-              )}
+              Some of your past days had unattempted sections and have been reset for <strong>24 hours</strong>. 
+              Please complete them now to restore your streak!
             </p>
             <div style={{ background: 'var(--bg-elevated)', padding: '0.75rem', borderRadius: 'var(--radius-sm)', marginBottom: '1.5rem', border: '1px solid var(--border)', textAlign: 'center' }}>
               <strong>Reset Days:</strong> {resetDaysList.join(', ')}
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', width: '100%' }}>
-              {resetDaysList.includes(47) && (
-                <button 
-                  className="btn btn-primary" 
-                  onClick={() => {
-                    setShowResetModal(false)
-                    sessionStorage.setItem('day47_courses_dismissed', 'true')
-                    navigate('/challenge/day/47/sections')
-                  }} 
-                  style={{ width: '100%', justifyContent: 'center' }}
-                >
-                  Attempt Day 47 Now 🚀
-                </button>
-              )}
+              <button 
+                className="btn btn-primary" 
+                onClick={() => {
+                  setShowResetModal(false)
+                  sessionStorage.setItem('courses_reset_dismissed', 'true')
+                  if (resetDaysList[0]) navigate(`/challenge/day/${resetDaysList[0]}/sections`)
+                }} 
+                style={{ width: '100%', justifyContent: 'center' }}
+              >
+                Attempt Reset Day 🚀
+              </button>
               <button 
                 className="btn btn-secondary" 
                 onClick={() => {
                   setShowResetModal(false)
-                  sessionStorage.setItem('day47_courses_dismissed', 'true')
+                  sessionStorage.setItem('courses_reset_dismissed', 'true')
                 }} 
                 style={{ width: '100%', justifyContent: 'center' }}
               >
-                {resetDaysList.includes(47) ? "I'll do it later" : "Got it, I'll complete them!"}
+                Got it, I'll complete them!
               </button>
             </div>
           </div>

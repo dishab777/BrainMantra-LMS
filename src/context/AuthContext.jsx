@@ -33,13 +33,11 @@ export function AuthProvider({ children }) {
   }, [])
 
   const login = (studentData) => {
-    sessionStorage.removeItem('day47_modal_dismissed')
     setStudent(studentData)
     localStorage.setItem('abacus_student', JSON.stringify(studentData))
   }
 
   const logout = () => {
-    sessionStorage.removeItem('day47_modal_dismissed')
     setStudent(null)
     localStorage.removeItem('abacus_student')
   }
